@@ -39,13 +39,14 @@ const CalendarView = (props) => {
           todayTextColor:'#333'
         }}
         current={today}
-        minDate={today}
+        minDate={start !== "" ? start : today}
         onDayPress={(day) => handleDayPress(day)}
         monthFormat={'yyyy MM'}
         hideExtraDays={true}
         firstDay={1}
         markedDates={{
           [start]: { selected: true, marked: true, selectedColor: '#333' },
+          [today]: { disabled: true, disableTouchEvent: true, dotColor: 'red', disabledTextColor: '#d9e1e8' }
         }}
       />
     </View>

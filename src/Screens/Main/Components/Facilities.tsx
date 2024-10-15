@@ -34,7 +34,10 @@ const data = [
     },
 ];
 
-const RoomsSlider = () => {
+const RoomsSlider = ( props ) => {
+  
+  const {item} = props;
+  //console.log(item);
 
   const renderItem = ({ item }) => (
         <View style={styles.slide}>
@@ -46,7 +49,7 @@ const RoomsSlider = () => {
 
   return (
     <FlatList
-      data={data}
+      data={item}
       renderItem={renderItem}
       keyExtractor={(item, index) => index.toString()}
       horizontal

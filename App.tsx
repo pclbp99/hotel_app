@@ -14,7 +14,7 @@ import Main from './src/Screens/Main/Main';
 
 const Stack = createNativeStackNavigator();
 
-function App(): React.JSX.Element {
+const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName='Main'>

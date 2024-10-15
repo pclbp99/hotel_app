@@ -27,6 +27,7 @@ import Plus from '../../Assets/Icons/plus.png';
 import Dining01 from '../../Assets/Images/Dining01.jpg';
 import Dining02 from '../../Assets/Images/Dining02.jpg';
 
+import axios from 'axios';
 
 const Main = () => {
 
@@ -35,6 +36,67 @@ const Main = () => {
     const [start, setStart] = useState('');
     const [end, setEnd] = useState('');
     const [modal, setModal] = useState(false);
+
+    
+
+    // API get 방식으로 시설 리스트 불러오기
+    const [item, setItem] = useState([]);
+
+    const Test = async() => {
+        const url = 'https://routidoo001.cafe24.com/api';
+        const endpoint = `${url}/Facl.ajax.php`;
+
+        try{
+            const response = await axios.get(endpoint)
+            .then(function(response){
+                //console.log(response.data);
+                setItem(response.data.data);
+            })
+            .catch(function(error){
+                console.log(error);
+            });
+        }catch(error){
+            console.error('Error', error);
+        }
+    };
+
+    useEffect(()=>{
+        Test();
+        //console.log('item',item);
+    }, []);
+
+
+    // API post 방식으로 사용하기
+    // const Test2 = async() => {
+    //     const url = 'https://routidoo001.cafe24.com/api';
+    //     const endpoint = `${url}/member.ajax.php`;
+    //     const user = {
+    //         user_id : 'test',
+    //         user_pw : 1234,
+    //     };
+
+    //     try{
+    //         const response = await axios.post(endpoint, user)
+    //             .then(function(response){
+    //                 console.log(response.data);
+    //                 if(response.data.msg === 'N'){
+    //                     Alert.alert('실패');
+    //                 }else{
+    //                     Alert.alert('성공');
+    //                 }
+    //             })
+    //             .catch(function(error){
+    //                 console.log(error);
+    //             })
+    //     } catch(error) {
+    //         console.error('Error', error);
+    //     }
+    // };
+
+    // useEffect(() => {
+    //     Test2();
+    // }, []);
+
 
     // 오늘과 내일 날짜 계산 함수
     const getInitialDates = () => {
@@ -237,7 +299,7 @@ const Main = () => {
                         <TextEN style={[styles.titEN, {marginRight:10}]}>FACILITIES</TextEN>
                         <TextKR style={styles.titKR}>시설</TextKR>
                     </View>
-                    <Facilities />
+                    <Facilities item={item} />
                 </View>
             </ScrollView>
         </SafeAreaView>
