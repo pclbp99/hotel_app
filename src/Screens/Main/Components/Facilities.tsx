@@ -19,7 +19,7 @@ const itemWidth = screenWidth / 1.75; // 1.2개의 슬라이드를 표시하기 
 const data = [
     {
         image: Facility01,
-        titleEN: 'Standard',
+        titleEN: 'Swimming Pool',
         titleKR: '수영장',
     },
     {

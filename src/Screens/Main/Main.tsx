@@ -299,7 +299,7 @@ const Main = () => {
                         <TextEN style={[styles.titEN, {marginRight:10}]}>FACILITIES</TextEN>
                         <TextKR style={styles.titKR}>시설</TextKR>
                     </View>
-                    <Facilities item={item} />
+                    <Facilities item={item}/>
                 </View>
             </ScrollView>
         </SafeAreaView>

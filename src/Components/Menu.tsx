@@ -8,6 +8,9 @@ import {
   Dimensions,
   Modal,
 } from 'react-native';
+
+import { useNavigation } from '@react-navigation/native';
+
 import TextKR from '../../TextKR';
 import LoginArrow from '../Assets/Icons/login_arrow.png';
 import Close from '../Assets/Icons/close.png';
@@ -15,6 +18,15 @@ import Close from '../Assets/Icons/close.png';
 const { height: screenHeight } = Dimensions.get('window');
 
 const Menu = ({ menuOn, menuClose }) => {
+
+  const navigation = useNavigation(); 
+
+  const navigateTo = (screen) => {
+      navigation.navigate(screen);
+      menuClose();
+  };
+
+
   return (
     <Modal
       transparent={true}
@@ -25,7 +37,7 @@ const Menu = ({ menuOn, menuClose }) => {
 
         <View style={styles.menuContainer}>
           <View style={styles.menuTop}>
-            <TouchableOpacity style={styles.loginBtn}>
+            <TouchableOpacity style={styles.loginBtn} onPress={() => navigateTo('Login')}>
               <TextKR style={styles.loginTxt}>로그인</TextKR>
               <Image source={LoginArrow} />
             </TouchableOpacity>
@@ -41,13 +53,13 @@ const Menu = ({ menuOn, menuClose }) => {
                 </View>
                 <View style={styles.cate02}>
                     <TouchableOpacity>
-                    <TextKR style={styles.cate02Tit}>호텔 소개</TextKR>
+                      <TextKR style={styles.cate02Tit}>호텔 소개</TextKR>
                     </TouchableOpacity>
                     <TouchableOpacity>
-                    <TextKR style={styles.cate02Tit}>시설 안내</TextKR>
+                      <TextKR style={styles.cate02Tit}>시설 안내</TextKR>
                     </TouchableOpacity>
-                    <TouchableOpacity>
-                    <TextKR style={styles.cate02Tit}>오시는 길</TextKR>
+                    <TouchableOpacity onPress={() => navigateTo('Directions')}>
+                      <TextKR style={styles.cate02Tit}>오시는 길</TextKR>
                     </TouchableOpacity>
                 </View>
 
