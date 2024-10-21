@@ -21,6 +21,8 @@ import LoginLogo from '../../Assets/Icons/login_logo.png';
 import kakao from '../../Assets/Icons/kakao.png';
 import naver from '../../Assets/Icons/naver.png';
 import EmailLogin from './EmailLogin';
+import NaverLogin from './Components/Naver';
+import KakaoLogin from './Components/Kakao';
 
 const { height: screenHeight } = Dimensions.get('window');
 
@@ -47,19 +49,23 @@ const Login = () => {
                         </View>
 
                         <View style={styles.buttonContainer}>
-                            <TouchableWithoutFeedback>
+                            {/* <TouchableWithoutFeedback>
                                 <View style={[styles.kakaoBtn, styles.loginBtnCommon]}>
                                     <Image source={kakao} />
                                     <TextKR style={styles.kakaoTxt}>카카오 로그인</TextKR>
                                 </View>
-                            </TouchableWithoutFeedback>
+                            </TouchableWithoutFeedback> */}
 
-                            <TouchableWithoutFeedback>
+                            <KakaoLogin />
+
+                            {/* <TouchableWithoutFeedback>
                                 <View style={[styles.naverBtn, styles.loginBtnCommon]}>
                                     <Image source={naver} style={{marginRight:5}}/>
                                     <TextKR style={styles.naverTxt}>네이버 로그인</TextKR>
                                 </View>
-                            </TouchableWithoutFeedback>
+                            </TouchableWithoutFeedback> */}
+
+                            <NaverLogin />
 
                             <TouchableWithoutFeedback onPress={() => navigateTo(EmailLogin)}>
                                 <View style={[styles.loginBtnCommon, styles.emailBtn]}>

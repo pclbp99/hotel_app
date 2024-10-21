@@ -66,37 +66,7 @@ const Main = () => {
     }, []);
 
 
-    // API post 방식으로 사용하기
-    // const Test2 = async() => {
-    //     const url = 'https://routidoo001.cafe24.com/api';
-    //     const endpoint = `${url}/member.ajax.php`;
-    //     const user = {
-    //         user_id : 'test',
-    //         user_pw : 1234,
-    //     };
-
-    //     try{
-    //         const response = await axios.post(endpoint, user)
-    //             .then(function(response){
-    //                 console.log(response.data);
-    //                 if(response.data.msg === 'N'){
-    //                     Alert.alert('실패');
-    //                 }else{
-    //                     Alert.alert('성공');
-    //                 }
-    //             })
-    //             .catch(function(error){
-    //                 console.log(error);
-    //             })
-    //     } catch(error) {
-    //         console.error('Error', error);
-    //     }
-    // };
-
-    // useEffect(() => {
-    //     Test2();
-    // }, []);
-
+   
 
     // 오늘과 내일 날짜 계산 함수
     const getInitialDates = () => {

@@ -10,6 +10,8 @@ import {
 } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
+import { useDispatch, useSelector } from 'react-redux';
+import { login, logout } from '../Redux/authSlice';
 
 import TextKR from '../../TextKR';
 import LoginArrow from '../Assets/Icons/login_arrow.png';
@@ -26,6 +28,19 @@ const Menu = ({ menuOn, menuClose }) => {
       menuClose();
   };
 
+  //로그인 상태 관리
+  const dispatch = useDispatch();
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+
+  const handleLogin = () => {
+    dispatch(login());
+    navigateTo('Login')
+  };
+
+  const handleLogout = () => {
+    dispatch(logout());
+    navigateTo('Main')
+  };
 
   return (
     <Modal
@@ -37,8 +52,13 @@ const Menu = ({ menuOn, menuClose }) => {
 
         <View style={styles.menuContainer}>
           <View style={styles.menuTop}>
-            <TouchableOpacity style={styles.loginBtn} onPress={() => navigateTo('Login')}>
-              <TextKR style={styles.loginTxt}>로그인</TextKR>
+            <TouchableOpacity 
+              style={styles.loginBtn} 
+              onPress={isLoggedIn ? handleLogout : handleLogin}
+            >
+              <TextKR style={styles.loginTxt}>
+                {isLoggedIn ? '로그아웃' : '로그인'}
+              </TextKR>
               <Image source={LoginArrow} />
             </TouchableOpacity>
             <TouchableOpacity onPress={menuClose}>

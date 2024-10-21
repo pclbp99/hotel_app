@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
     SafeAreaView,
     View,
@@ -10,6 +10,7 @@ import {
   } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
 import TextKR from '../../../TextKR';
 import styles from '../../Screens/Member/styles.js';
 
@@ -33,7 +34,7 @@ const Join = () => {
     const [selectedYear, setSelectedYear] = useState(currentYear);
     const [selectedMonth, setSelectedMonth] = useState(1);
     const [selectedDay, setSelectedDay] = useState(1);
-    const [selectedGender, setSelectedGender] = useState('male');
+    const [selectedGender, setSelectedGender] = useState('M');
     const [phone, setPhone] = useState('');
     const [certificationNum, setCertificationNum] = useState('');
     const [termsCheck, setTermsCheck] = useState(false);
@@ -81,20 +82,48 @@ const Join = () => {
         };
     };
 
-    const duplicateCheck = () => {
+    const duplicateCheck =  async() => {
         if(!isEmailValid){
             Alert.alert('형식 확인', '이메일 형식이 아닙니다.');
             return;
         }else{
+            // API post 방식으로 사용하기
+                const url = 'https://routidoo001.cafe24.com/api';
+                const endpoint = `${url}/IdCheck.ajax.php`;
+                const data = {
+                    user_id : email,
+                };
+
+                try{
+                    const response = await axios.post(endpoint, data)
+                        .then(function(response){
+                            console.log(response.data);
+                            if(response.data.msg === 'Y'){
+                                Alert.alert('중복확인', '현재 아이디는 사용가능합니다');
+                                setEmailDupChk(true);
+                            }else{
+                                Alert.alert('중복확인', '이미 존재하는 아이디입니다');
+                                setEmail('');
+                                setEmailDupChk(false);
+                            }
+                        })
+                        .catch(function(error){
+                            console.log(error);
+                        })
+                } catch(error) {
+                    console.error('Error', error);
+                }
+
+           
             {/* 중복 확인 */}
-            if(email === 'test@rn.com'){
-                Alert.alert('중복확인', '이미 존재하는 아이디입니다');
-                setEmail('');
-                return;
-            }else{
-                Alert.alert('중복확인', '현재 아이디는 사용가능합니다');
-                setEmailDupChk(true);
-            };
+            // if(email === 'test@rn.com'){
+            //     Alert.alert('중복확인', '이미 존재하는 아이디입니다');
+            //     setEmail('');
+            //     return;
+            // }else{
+            //     Alert.alert('중복확인', '현재 아이디는 사용가능합니다');
+            //     setEmailDupChk(true);
+            // };
         };
     };
 
@@ -107,8 +136,59 @@ const Join = () => {
     const isPasswordMatched = password === passwordChk && password.length > 0;
 
 
+    // 인증번호 발송
+    const smsSend = async () => {
+        const url = 'https://routidoo001.cafe24.com/api';
+        const endpoint = `${url}/SmsSend.ajax.php`;
+        const data = {
+            user_hp : phone,
+        };
+
+        try{
+            const response = await axios.post(endpoint, data)
+                .then(function(response){
+                    console.log(response.data);
+                    if(response.data.msg == 'Y'){
+                        Alert.alert('인증번호', '인증번호가 발송되었습니다.\n코드번호:'+response.data.code);
+                    }
+                })
+                .catch(function(error){
+                    console.log(error);
+                })
+        } catch(error) {
+            console.error('Error', error);
+        }
+    };
+
+    // 인증번호 확인
+    const hpCheck = async () => {
+        const url = 'https://routidoo001.cafe24.com/api';
+        const endpoint = `${url}/HpCheck.ajax.php`;
+        const data = {
+            user_hp : phone,
+            code : certificationNum,
+        };
+
+        try{
+            const response = await axios.post(endpoint, data)
+                .then(function(response){
+                    console.log(response.data);
+                    if(response.data.msg === 'Y'){
+                        Alert.alert('인증확인', '인증이 완료되었습니다');
+                    }else{
+                        Alert.alert('인증실패', '잘못된 인증번호입니다');
+                    }
+                })
+                .catch(function(error){
+                    console.log(error);
+                })
+        } catch(error) {
+            console.error('Error', error);
+        }
+    };
+
     //회원가입
-    const signUp = () => {
+    const signUp = async() => {
 
         if(!email || !password || !passwordChk || !name || !phone || !certificationNum){
             Alert.alert('입력 오류', '모든 내용을 입력해주세요.');
@@ -140,8 +220,74 @@ const Join = () => {
             return;
         }
 
-        Alert.alert('회원가입 성공', '회원가입이 완료되었습니다.');
-        navigation.navigate('Main');
+
+        // API 형식에 맞추어 전달되는 값 변경
+
+        //월, 일 10 이하 값에서 0 붙여주기
+        let month = '';
+        if(selectedMonth < 10){
+            month =`0${selectedMonth}`;
+        }else{
+            month = selectedMonth;
+        }
+
+        let day = '';
+        if(selectedDay < 10){
+            day =`0${selectedDay}`;
+        }else{
+            day = selectedDay;
+        }
+
+        console.log(selectedYear);
+
+        let birth = `${selectedYear}-${month}-${day}`;
+
+        // 약관 동의
+        let termsAgree = '';
+        if(termsCheck === true){
+            termsAgree = 'Y';
+        }else{
+            termsAgree = 'N';
+        }
+
+        console.log(email);
+        console.log(email, password, name, birth, selectedGender, phone, certificationNum, termsAgree);
+
+
+
+        // 회원가입 데이터 입력
+        const url = 'https://routidoo001.cafe24.com/api';
+        const endpoint = `${url}/Member.ajax.php`;
+        const data = {
+            user_id: email,
+            user_pw: password,
+            user_name: name,
+            user_birth: birth,
+            user_gender: selectedGender,
+            user_hp: phone,
+            user_terms: termsAgree,
+        };
+
+        try{
+            const response = await axios.post(endpoint, data)
+                .then(function(response){
+                    console.log(response.data);
+                    if(response.data.msg === 'Y'){
+                        Alert.alert('회원가입 성공', '회원가입이 완료되었습니다.');
+                        //navigation.navigate('Main');
+                    }else{
+                        Alert.alert('회원가입 실패', '회원가입이 실패하였습니다.');
+                    }
+                })
+                .catch(function(error){
+                    console.log(error);
+                })
+        } catch(error) {
+            console.error('Error', error);
+        }
+
+        //Alert.alert('회원가입 성공', '회원가입이 완료되었습니다.');
+        //navigation.navigate('Main');
     }
 
     return(
@@ -249,12 +395,12 @@ const Join = () => {
                                 <TouchableOpacity
                                 style={[
                                     styles.btnCom,
-                                    selectedGender === 'male' ? styles.btnSub : styles.btnDisabled,
+                                    selectedGender === 'M' ? styles.btnSub : styles.btnDisabled,
                                     { width: '48%', height: 45 }
                                 ]}
-                                onPress={() => handleSelectGender('male')}
+                                onPress={() => handleSelectGender('M')}
                                 >
-                                    <TextKR style={[styles.btnTxtMini, { color: selectedGender === 'male' ? '#ffffff' : '#777' }]}>
+                                    <TextKR style={[styles.btnTxtMini, { color: selectedGender === 'M' ? '#ffffff' : '#777' }]}>
                                         남자
                                     </TextKR>
                                 </TouchableOpacity>
@@ -262,12 +408,12 @@ const Join = () => {
                                 <TouchableOpacity
                                 style={[
                                     styles.btnCom,
-                                    selectedGender === 'female' ? styles.btnSub : styles.btnDisabled,
+                                    selectedGender === 'G' ? styles.btnSub : styles.btnDisabled,
                                     { width: '48%', height: 45 }
                                 ]}
-                                onPress={() => handleSelectGender('female')}
+                                onPress={() => handleSelectGender('G')}
                                 >
-                                    <TextKR style={[styles.btnTxtMini, { color: selectedGender === 'female' ? '#ffffff' : '#777' }]}>
+                                    <TextKR style={[styles.btnTxtMini, { color: selectedGender === 'G' ? '#ffffff' : '#777' }]}>
                                         여자
                                     </TextKR>
                                 </TouchableOpacity>
@@ -286,7 +432,10 @@ const Join = () => {
                                     keyboardType="numeric"
                                 />
                             </View>
-                            <TouchableOpacity style={[styles.btnCom, styles.btnLine, {width:100, height: 49}]}>
+                            <TouchableOpacity 
+                                style={[styles.btnCom, styles.btnLine, {width:100, height: 49}]}
+                                onPress={smsSend}
+                            >
                                 <TextKR style={[styles.btnTxt, {fontSize:14}]}>인증번호발송</TextKR>
                             </TouchableOpacity>
                         </View>
@@ -299,7 +448,10 @@ const Join = () => {
                                     keyboardType="numeric"
                                 />
                             </View>
-                            <TouchableOpacity style={[styles.btnCom, styles.btnMain, {width:100, height: 49}]}>
+                            <TouchableOpacity 
+                                style={[styles.btnCom, styles.btnMain, {width:100, height: 49}]}
+                                onPress={hpCheck}
+                            >
                                 <TextKR style={[styles.btnTxt, {color:'#fff',fontSize:14}]}>인증확인</TextKR>
                             </TouchableOpacity>
                         </View>

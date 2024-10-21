@@ -41,7 +41,7 @@ const RoomsSlider = ( props ) => {
 
   const renderItem = ({ item }) => (
         <View style={styles.slide}>
-            <Image source={item.image} style={styles.image} />
+            <Image source={{uri:item.image}} style={styles.image} />
             <TextEN style={styles.titleEN}>{item.titleEN}</TextEN>
             <TextKR style={styles.titleKR}>{item.titleKR}</TextKR>
         </View>

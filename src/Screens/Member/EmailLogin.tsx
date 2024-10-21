@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
 import TextKR from '../../../TextKR';
 import TextEN from '../../../TextEN';
 import styles from '../../Screens/Member/styles.js';
@@ -20,7 +21,7 @@ import CustomCheckBox from '../Member/Components/CheckBox';
 
 const { height: screenHeight } = Dimensions.get('window');
 
-const EmailLogin = ({ check }) => {
+const EmailLogin = ({ props }) => {
 
     const navigation = useNavigation();
     const navigateTo = (screen) => {
@@ -35,12 +36,35 @@ const EmailLogin = ({ check }) => {
       setLoginChecked(checked); 
     };
   
-    const handleLoginPress = () => {
-        if (email === 'test@rn.com' && password === '1234') {
-            check.navigate('Main'); 
-        } else {
-            Alert.alert('로그인 실패', '아이디 또는 비밀번호가 올바르지 않습니다.');
+    const handleLoginPress = async() => {
+        const url = 'https://routidoo001.cafe24.com/api';
+        const endpoint = `${url}/Login.ajax.php`;
+        const data = {
+            user_id : email,
+            user_pw : password,
+        };
+
+        try{
+            const response = await axios.post(endpoint, data)
+                .then(function(response){
+                    console.log(response.data);
+                    if(response.data.msg === 'Y'){
+                        navigation.navigate('Main'); 
+                    }else{
+                        Alert.alert('로그인 실패', '아이디 또는 비밀번호가 올바르지 않습니다.');
+                    }
+                })
+                .catch(function(error){
+                    console.log(error);
+                })
+        } catch(error) {
+            console.error('Error', error);
         }
+        // if (email === 'test@rn.com' && password === '1234') {
+        //     check.navigate('Main'); 
+        // } else {
+        //     Alert.alert('로그인 실패', '아이디 또는 비밀번호가 올바르지 않습니다.');
+        // }
     };
 
     return(
