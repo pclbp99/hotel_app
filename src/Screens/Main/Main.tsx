@@ -10,6 +10,8 @@ import {
   Alert
 } from 'react-native';
 
+import { useNavigation } from '@react-navigation/native';
+
 import styles from '../Main/styles.js';
 import TextKR from '../../../TextKR';
 import TextEN from '../../../TextEN';
@@ -30,6 +32,12 @@ import Dining02 from '../../Assets/Images/Dining02.jpg';
 import axios from 'axios';
 
 const Main = () => {
+
+    const navigation = useNavigation(); 
+
+    const navigateTo = (screen) => {
+        navigation.navigate(screen);
+    };
 
     const [adult, setAdult] = useState(2);
     const [child, setChild] = useState(0);
@@ -257,7 +265,10 @@ const Main = () => {
                     </View>
                     
                     <View style={{paddingHorizontal:20}}>
-                        <TouchableOpacity style={styles.commonButton}>
+                        <TouchableOpacity 
+                            style={styles.commonButton}
+                            onPress={() => navigateTo('Dining')}
+                        >
                             <TextKR style={styles.ComBtnText}>다이닝 전체보기</TextKR>
                         </TouchableOpacity>
                     </View>

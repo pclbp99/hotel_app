@@ -481,12 +481,10 @@ const Join = () => {
                     {/* 회원가입 버튼 */}
                     <TouchableOpacity 
                             style={[styles.btnCom, styles.btnMain]} 
-                        >
-                            <TextKR 
-                                style={[styles.btnTxt, {color:'#ffffff'}]}
-                                onPress={signUp}
-                            >회원가입</TextKR>
-                        </TouchableOpacity>
+                            onPress={signUp}
+                    >
+                        <TextKR style={[styles.btnTxt, {color:'#ffffff'}]}>회원가입</TextKR>
+                    </TouchableOpacity>
                 </View>
             </ScrollView>
         </SafeAreaView>

@@ -28,6 +28,14 @@ const Menu = ({ menuOn, menuClose }) => {
       menuClose();
   };
 
+  const navigateToRoomTab = (tab) => {
+    navigation.push('Rooms', {screen: tab,});
+  };
+  
+  const navigateToDiningTab = (tab) => {
+    navigation.push('Dining', {screen: tab,});
+  };
+
   //로그인 상태 관리
   const dispatch = useDispatch();
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -72,10 +80,10 @@ const Menu = ({ menuOn, menuClose }) => {
                     <TextKR style={styles.cate01Tit}>ABOUT</TextKR>
                 </View>
                 <View style={styles.cate02}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigateTo('About')}>
                       <TextKR style={styles.cate02Tit}>호텔 소개</TextKR>
                     </TouchableOpacity>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigateTo('FacilityIntroduction')}>
                       <TextKR style={styles.cate02Tit}>시설 안내</TextKR>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => navigateTo('Directions')}>
@@ -87,7 +95,7 @@ const Menu = ({ menuOn, menuClose }) => {
                     <TextKR style={styles.cate01Tit}>SPECIAL</TextKR>
                 </View>
                 <View style={styles.cate02}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigateTo('Promotion')}>
                         <TextKR style={styles.cate02Tit}>프로모션 & 패키지</TextKR>
                     </TouchableOpacity>
                 </View>
@@ -96,7 +104,7 @@ const Menu = ({ menuOn, menuClose }) => {
                     <TextKR style={styles.cate01Tit}>RESERVATION</TextKR>
                 </View>
                 <View style={styles.cate02}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigateTo('Reservation')}>
                         <TextKR style={styles.cate02Tit}>예약하기</TextKR>
                     </TouchableOpacity>
                     <TouchableOpacity>
@@ -108,13 +116,13 @@ const Menu = ({ menuOn, menuClose }) => {
                     <TextKR style={styles.cate01Tit}>ROOMS</TextKR>
                 </View>
                 <View style={styles.cate02}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigateToRoomTab('스탠다드')}>
                         <TextKR style={styles.cate02Tit}>스탠다드</TextKR>
                     </TouchableOpacity>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigateToRoomTab('디럭스')}>
                         <TextKR style={styles.cate02Tit}>디럭스</TextKR>
                     </TouchableOpacity>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigateToRoomTab('스위트')}>
                         <TextKR style={styles.cate02Tit}>스위트</TextKR>
                     </TouchableOpacity>
                 </View>
@@ -123,10 +131,10 @@ const Menu = ({ menuOn, menuClose }) => {
                     <TextKR style={styles.cate01Tit}>DINING</TextKR>
                 </View>
                 <View style={styles.cate02}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigateToDiningTab('테이스트 오브 테라스')}>
                         <TextKR style={styles.cate02Tit}>테이스트 오브 테라스</TextKR>
                     </TouchableOpacity>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigateToDiningTab('오리엔탈 하모니')}>
                         <TextKR style={[styles.cate02Tit, {paddingBottom:40}]}>오리엔탈 하모니</TextKR>
                     </TouchableOpacity>
                 </View>

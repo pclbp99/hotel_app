@@ -20,6 +20,15 @@ const styles = StyleSheet.create({
         paddingHorizontal:20,
     },
 
+    commonPaddingVt: {
+        paddingTop: 70,
+        paddingBottom:30,
+    },
+
+    commonPaddingHr: {
+        paddingHorizontal: 20,
+    }, 
+
     webviewBoxStyle:{
         flex:1, 
         width:'100%', 
@@ -72,6 +81,20 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
 
+    btnCom100:{
+        width:'100%',
+        height: 45,
+        flexDirection:'row',
+        alignItems:'center',
+        justifyContent:'center',
+        borderRadius:3,
+        marginBottom: 10,
+    },
+
+    btnMain: {
+        backgroundColor: '#333333', 
+    },
+
     btnSub:{
         backgroundColor: '#837166',
     },
@@ -116,6 +139,40 @@ const styles = StyleSheet.create({
         height:14,
         marginHorizontal:15,
     },
+
+    /* About */
+    aboutTit: {
+        fontSize:18,
+        fontWeight:'700',
+    },
+
+    /* Facility Introduction */
+    facEachLine: {
+        flex:1,
+        flexDirection:'row',
+        alignItems: 'center',
+        justifyContent:'space-between',
+        marginBottom: 30,
+    },
+
+    facEach: {
+        width: '48%',
+    },
+
+    facImage: {
+        width:'100%',
+        height: 175,
+        marginBottom: 10,
+    },
+
+    facTitEN:{
+        fontSize:18,
+    },
+
+    facTitKR: {
+        color:'#837166',
+    },
+    
 });
 
 export default styles;

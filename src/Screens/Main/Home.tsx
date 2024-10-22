@@ -13,6 +13,13 @@ import Login from '../../Screens/Member/Login';
 import EmailLogin from '../../Screens/Member/EmailLogin';
 import Join from '../../Screens/Member/Join';
 import Directions from '../../Screens/About/Directions';
+import About from '../../Screens/About/About';
+import FacilityIntroduction from '../../Screens/About/FacilityIntroduction';
+import Promotion from '../../Screens/Promotion/Promotion';
+import Detail from '../../Screens/Promotion/Detail';
+import Rooms from '../../Screens/Rooms/Rooms';
+import Dining from '../../Screens/Dining/Dining';
+import Reservation from '../../Screens/Reservation/Reservation';
 
 
 const Stack = createNativeStackNavigator();
@@ -74,6 +81,84 @@ const Home = () => {
                 animationTypeForReplace: 'pop'
               }} 
           />
+
+          <Stack.Screen 
+              name='About' 
+              component={About} 
+              options={{
+                title: '',
+                headerTransparent: true,
+                headerShown: false,
+                animationTypeForReplace: 'pop'
+              }} 
+          />
+
+          <Stack.Screen 
+              name='FacilityIntroduction' 
+              component={FacilityIntroduction} 
+              options={{
+                title: '',
+                headerTransparent: true,
+                headerShown: false,
+                animationTypeForReplace: 'pop'
+              }} 
+          />
+
+          <Stack.Screen 
+              name='Promotion' 
+              component={Promotion} 
+              options={{
+                title: '',
+                headerTransparent: true,
+                headerShown: false,
+                animationTypeForReplace: 'pop'
+              }} 
+          />
+
+          <Stack.Screen 
+              name='Detail' 
+              component={Detail} 
+              options={{
+                title: '',
+                headerTransparent: true,
+                headerShown: false,
+                animationTypeForReplace: 'pop'
+              }} 
+          />
+
+          <Stack.Screen 
+              name='Rooms' 
+              component={Rooms} 
+              options={{
+                title: '',
+                headerTransparent: true,
+                headerShown: false,
+                animationTypeForReplace: 'pop'
+              }} 
+          />
+
+          <Stack.Screen 
+              name='Dining' 
+              component={Dining} 
+              options={{
+                title: '',
+                headerTransparent: true,
+                headerShown: false,
+                animationTypeForReplace: 'pop'
+              }} 
+          />
+
+          <Stack.Screen 
+              name='Reservation' 
+              component={Reservation} 
+              options={{
+                title: '',
+                headerTransparent: true,
+                headerShown: false,
+                animationTypeForReplace: 'pop'
+              }} 
+          />
+
         </Stack.Navigator>
   );
 }
