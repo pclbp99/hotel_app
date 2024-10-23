@@ -224,12 +224,15 @@ const Reservation = () => {
                                     </View>
                                     <View>
                                     <TouchableOpacity style={[styles.btnCom100, styles.btnLine]}>
-                                        <TextKR style={[styles.btnTxt, { color: '#837166' }]}>
+                                        <TextKR style={[styles.btnTxtMini, { color: '#837166' }]}>
                                         상세보기
                                         </TextKR>
                                     </TouchableOpacity>
-                                    <TouchableOpacity style={[styles.btnCom100, styles.btnSub]}>
-                                        <TextKR style={[styles.btnTxt, { color: '#ffffff' }]}>
+                                    <TouchableOpacity 
+                                        style={[styles.btnCom100, styles.btnSub]}
+                                        onPress={()=>navigateTo('Pay')}
+                                    >
+                                        <TextKR style={[styles.btnTxtMini, { color: '#ffffff' }]}>
                                         예약하기
                                         </TextKR>
                                     </TouchableOpacity>

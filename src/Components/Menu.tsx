@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect} from 'react';
 import {
   View,
   TouchableOpacity,
@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import { login, logout } from '../Redux/authSlice';
 
@@ -28,13 +29,30 @@ const Menu = ({ menuOn, menuClose }) => {
       menuClose();
   };
 
-  const navigateToRoomTab = (tab) => {
+  const navigateToRoomTab = (screen, roomId) => {
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'Rooms', params: { screen: screen, roomId: roomId } }],
+    });
+    menuClose();
+  };
+  
+  const navigateToDiningTab = (screen, diningId) => {
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'Dining', params: { screen: screen, diningId: diningId } }],
+    });
+    menuClose();
+  };
+  
+
+  /*const navigateToRoomTab = (tab) => {
     navigation.push('Rooms', {screen: tab,});
   };
   
   const navigateToDiningTab = (tab) => {
     navigation.push('Dining', {screen: tab,});
-  };
+  };*/
 
   //로그인 상태 관리
   const dispatch = useDispatch();
@@ -49,6 +67,56 @@ const Menu = ({ menuOn, menuClose }) => {
     dispatch(logout());
     navigateTo('Main')
   };
+
+  // 객실명 불러오기
+  const [room, setRoom] = useState([]);
+
+  const getRoomsList = async() => {
+      const url = 'https://routidoo001.cafe24.com/api';
+      const endpoint = `${url}/Parlor.ajax.php`;
+      
+      try{
+          const response = await axios.get(endpoint)
+          .then(function(response){
+              //console.log(response.data);
+              setRoom(response.data.data);
+          })
+          .catch(function(error){
+              console.log(error);
+          });
+      }catch(error){
+          console.error('Error', error);
+      }
+  };
+
+  useEffect(() => {
+      getRoomsList();
+  }, []);
+
+  // 다이닝 불러오기
+  const [dining, setDining] = useState([]);
+
+  const getDiningList = async() => {
+      const url = 'https://routidoo001.cafe24.com/api';
+      const endpoint = `${url}/Dining.ajax.php`;
+      
+      try{
+          const response = await axios.get(endpoint)
+          .then(function(response){
+              //console.log('dining',response.data.data);
+              setDining(response.data.data);
+          })
+          .catch(function(error){
+              console.log(error);
+          });
+      }catch(error){
+          console.error('Error', error);
+      }
+  };
+
+  useEffect(() => {
+      getDiningList();
+  }, []);
 
   return (
     <Modal
@@ -107,7 +175,7 @@ const Menu = ({ menuOn, menuClose }) => {
                     <TouchableOpacity onPress={() => navigateTo('Reservation')}>
                         <TextKR style={styles.cate02Tit}>예약하기</TextKR>
                     </TouchableOpacity>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigateTo('Check')}>
                         <TextKR style={styles.cate02Tit}>예약확인</TextKR>
                     </TouchableOpacity>
                 </View>
@@ -116,7 +184,15 @@ const Menu = ({ menuOn, menuClose }) => {
                     <TextKR style={styles.cate01Tit}>ROOMS</TextKR>
                 </View>
                 <View style={styles.cate02}>
-                    <TouchableOpacity onPress={() => navigateToRoomTab('스탠다드')}>
+                  {room.map((item, index) => (
+                    <TouchableOpacity 
+                      onPress={() => navigateToRoomTab(item.pr_subject, item.idx)}
+                      key={index}
+                    >
+                      <TextKR style={styles.cate02Tit}>{item.pr_subject}</TextKR>
+                    </TouchableOpacity>
+                  ))}
+                    {/* <TouchableOpacity onPress={() => navigateToRoomTab('스탠다드')}>
                         <TextKR style={styles.cate02Tit}>스탠다드</TextKR>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => navigateToRoomTab('디럭스')}>
@@ -124,19 +200,27 @@ const Menu = ({ menuOn, menuClose }) => {
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => navigateToRoomTab('스위트')}>
                         <TextKR style={styles.cate02Tit}>스위트</TextKR>
-                    </TouchableOpacity>
+                    </TouchableOpacity>*/}
                 </View>
 
                 <View style={styles.cate01}>
                     <TextKR style={styles.cate01Tit}>DINING</TextKR>
                 </View>
                 <View style={styles.cate02}>
-                    <TouchableOpacity onPress={() => navigateToDiningTab('테이스트 오브 테라스')}>
+                  {dining.map((item, index) => (
+                      <TouchableOpacity 
+                        onPress={() => navigateToDiningTab(item.dn_name, item.idx)}
+                        key={index}
+                      >
+                        <TextKR style={styles.cate02Tit}>{item.dn_name}</TextKR>
+                      </TouchableOpacity>
+                  ))}
+                    {/*<TouchableOpacity onPress={() => navigateToDiningTab('테이스트 오브 테라스')}>
                         <TextKR style={styles.cate02Tit}>테이스트 오브 테라스</TextKR>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={() => navigateToDiningTab('오리엔탈 하모니')}>
                         <TextKR style={[styles.cate02Tit, {paddingBottom:40}]}>오리엔탈 하모니</TextKR>
-                    </TouchableOpacity>
+                    </TouchableOpacity>*/}
                 </View>
             </View>
           </ScrollView>
@@ -172,6 +256,7 @@ const styles = StyleSheet.create({
 
   menuBox: {
     paddingHorizontal: 20,
+    paddingBottom: 50,
   },
 
   cate01: {

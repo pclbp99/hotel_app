@@ -20,6 +20,10 @@ import Detail from '../../Screens/Promotion/Detail';
 import Rooms from '../../Screens/Rooms/Rooms';
 import Dining from '../../Screens/Dining/Dining';
 import Reservation from '../../Screens/Reservation/Reservation';
+import Pay from '../../Screens/Reservation/Pay';
+import Complete from '../../Screens/Reservation/Complete';
+import Check from '../../Screens/Reservation/Check';
+import CheckDetail from '../../Screens/Reservation/CheckDetail';
 
 
 const Stack = createNativeStackNavigator();
@@ -137,6 +141,7 @@ const Home = () => {
               }} 
           />
 
+
           <Stack.Screen 
               name='Dining' 
               component={Dining} 
@@ -151,6 +156,50 @@ const Home = () => {
           <Stack.Screen 
               name='Reservation' 
               component={Reservation} 
+              options={{
+                title: '',
+                headerTransparent: true,
+                headerShown: false,
+                animationTypeForReplace: 'pop'
+              }} 
+          />
+
+          <Stack.Screen 
+              name='Pay' 
+              component={Pay} 
+              options={{
+                title: '',
+                headerTransparent: true,
+                headerShown: false,
+                animationTypeForReplace: 'pop'
+              }} 
+          />
+
+          <Stack.Screen 
+              name='Complete' 
+              component={Complete} 
+              options={{
+                title: '',
+                headerTransparent: true,
+                headerShown: false,
+                animationTypeForReplace: 'pop'
+              }} 
+          />
+
+          <Stack.Screen 
+              name='Check' 
+              component={Check} 
+              options={{
+                title: '',
+                headerTransparent: true,
+                headerShown: false,
+                animationTypeForReplace: 'pop'
+              }} 
+          />
+
+            <Stack.Screen 
+              name='CheckDetail' 
+              component={CheckDetail} 
               options={{
                 title: '',
                 headerTransparent: true,

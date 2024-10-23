@@ -1,24 +1,34 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import Standard from '../Standard';
-import Deluxe from '../Deluxe';
-import Suite from '../Suite';
+import RoomDetails from '../RoomDetails';
+import { useNavigation } from '@react-navigation/native';
 
 const Tab = createMaterialTopTabNavigator();
 
-const TopTabNavigator = () => (
-  <Tab.Navigator
-    initialRouteName="스탠다드"
-    screenOptions={{
-      tabBarLabelStyle: { fontSize: 16, fontWeight: '700' },
-      tabBarIndicatorStyle: { backgroundColor: '#333333' },
-      tabBarStyle: { backgroundColor: 'white' },
-    }}
-  >
-    <Tab.Screen name="스탠다드" component={Standard} />
-    <Tab.Screen name="디럭스" component={Deluxe} />
-    <Tab.Screen name="스위트" component={Suite} />
-  </Tab.Navigator>
-);
+const TopTabNavigator = ({ initialTab, rooms }) => {
+
+  if (!rooms || rooms.length === 0) return null; 
+
+  return (
+      <Tab.Navigator
+          initialRouteName={rooms.length > 0 ? rooms[0].pr_subject : ''}
+          screenOptions={{
+              tabBarLabelStyle: { fontSize: 16, fontWeight: '700' },
+              tabBarIndicatorStyle: { backgroundColor: '#333333' },
+              tabBarStyle: { backgroundColor: 'white' },
+          }}
+      >
+          {rooms.map((room) => (
+              <Tab.Screen
+                  key={room.idx}
+                  name={room.pr_subject} 
+                  component={RoomDetails}
+                  initialParams={{ roomId: room.idx, pr_contents: room.pr_contents }}
+              />
+          ))}
+      </Tab.Navigator>
+  );
+};
+
 
 export default TopTabNavigator;

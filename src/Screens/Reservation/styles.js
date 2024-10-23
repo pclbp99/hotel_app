@@ -57,6 +57,16 @@ const styles = StyleSheet.create({
         marginTop: 10,
     },
 
+    btnCom100per:{
+        width:'100%',
+        height: 45,
+        flexDirection:'row',
+        alignItems:'center',
+        justifyContent:'center',
+        borderRadius:3,
+        marginTop: 10,
+    },
+
     btnMain: {
         backgroundColor: '#333333', 
     },
@@ -71,7 +81,22 @@ const styles = StyleSheet.create({
         borderColor:'#837166',
     },
 
+    btnLineB: {
+        backgroundColor:'#ffffff',
+        borderWidth:1,
+        borderColor:'#333',
+    },
+
+    btnDisabled: {
+        backgroundColor:'#d9d9d9',
+    },
+
     btnTxt: {
+        fontSize:16,
+        fontFamily:'Roboto-Bold',
+    },
+
+    btnTxtMini: {
         fontSize:14,
     },
 
@@ -168,6 +193,44 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontFamily:'RobotoSerif-SemiBold',
     },
+
+    tabContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        marginBottom: 20,
+    },
+
+    tabButton: {
+        width:'50%',
+        padding: 10,
+        borderBottomWidth: 2,
+        borderBottomColor: '#ccc',
+        alignItems:'center',
+    },
+
+    activeTabButton: {
+        borderBottomColor: '#000',
+    },
+      
+    tabButtonText: {
+        fontSize: 16,
+        color: '#777',
+    },
+
+    activeTabText: {
+        color: '#000',
+        fontWeight: 'bold',
+    },
+
+    inputView: {
+        width:'100%',
+        borderWidth:1,
+        borderColor:'#e5e5e5',
+        borderRadius:3,
+        paddingHorizontal: 10,
+        marginBottom:10,
+    },
+    
 });
 
 export default styles;

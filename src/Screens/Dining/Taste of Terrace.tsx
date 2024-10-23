@@ -8,9 +8,9 @@ import {
     StyleSheet
 } from 'react-native';
 
-import TextKR from '../../../TextKR';
-import TextEN from '../../../TextEN';
-import styles from '../../Screens/Dining/styles.js';
+import TextKR from '../../../TextKR.js';
+import TextEN from '../../../TextEN.js';
+import styles from './styles.js';
 import TotImg from '../../Assets/Images/Dining01.jpg';
 
 const TasteOfTerrace = () => {
